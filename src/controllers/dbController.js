@@ -21,7 +21,7 @@ module.exports = {
   
     async postEspecialidade(req, res) {
         const {especialidade , med_crm  } = req.body;        
-        const medico = await Medico.findByPk(med_crm, {include: {association: "especialidades"}});        
+        const medico = await Medico.findAll({where: {crm : med_crm}}, {include: {association: "especialidades"}});        
         if (!medico) {
            return res.status(400).json({ error: 'User not found' });
         }
@@ -35,8 +35,8 @@ module.exports = {
     async searchDoctor(req, res) {
         const {crm} = req.params;
         const medico = await Medico.findAll({
+          
             where: {crm : crm},  
-            include: {  association: "especialidades",},
         });
         return res.json(medico)
     },
@@ -55,41 +55,39 @@ module.exports = {
         
     },
 
-   async getDoctorsNoDeleted(req, res) {
-      const medico = await Medico.findAll({ 
-            include: { association: "especialidades"}
-        },
-            { where: { isDeleted: "0", } }
-        );
-        res.json(medico)
-                
-    },
     async getDoctorsDeleted(req, res) {
-        const medico = await Medico.findAll({ 
-              include: { association: "especialidades"}
-          },
-              { where: { isDeleted: "1", } }
-          );
+        const medico = await Medico.findAll({ where: { isDeleted: "1", } }
+        );
           res.json(medico)
                   
-      },
-    
-    async getEspecialidade(req, res) {
-        const especialidade = await Especialidade.findAll(/* { 
-              include: { association: "medico", }
-          } */
-          );
-          res.json(especialidade)
-                  
-      },
-
-    
-
-    softDeleteDoctor(req, res) {
-        Medico.update({
-            isDeleted: "1"
-        }, {
-            returning: true, where: {
+        },
+        
+        async getEspecialidade(req, res) {
+            const especialidade = await Especialidade.findAll(/* { 
+                include: { association: "medico", }
+            } */
+            );
+            res.json(especialidade)
+            
+        },
+        
+        
+        getDoctorsNoDeleted(req, res) {
+            Medico.findAll(
+                {where: { isDeleted: "0", }} ,
+                {include: { association: "especialidades"} },    
+                
+            ).then (medico =>{
+                res.json(medico)
+            })
+                    
+        },
+        
+        softDeleteDoctor(req, res) {
+            Medico.update({
+                isDeleted: "1"
+            }, {
+                returning: true, where: {
                 crm: req.params.crm
             }
         }).then(response => {
@@ -152,7 +150,8 @@ module.exports = {
             nome: req.body.nome,
             telefoneFixo: req.body.telefoneFixo,
             telefoneCelular: req.body.telefoneCelular,
-            cep: req.body.cep
+            cep: req.body.cep,
+            isDeleted: '0'
         }, {
             returning: true, where: {
                 crm: req.params.crm

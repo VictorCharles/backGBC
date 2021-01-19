@@ -8,7 +8,8 @@ routes.get('/', (req, res) => {
 
 routes.get('/medico', dbController.getDoctorsNoDeleted) /* okay */
 
-routes.get('/soft', dbController.getDoctorsNoDeleted)
+routes.get('/soft', dbController.getDoctorsDeleted) /* okay */
+
 routes.post('/medico', dbController.postDoctor) /* okay */
 
 routes.get('/espe', dbController.getEspecialidade) /* okay */

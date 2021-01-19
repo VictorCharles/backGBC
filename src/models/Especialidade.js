@@ -14,7 +14,7 @@ class Especialidade extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.tb_medicos, { foreignKey: 'med_crm', as: 'medico', targetKey: 'crm', keyType: DataTypes.INTEGER} );
+        this.belongsTo(models.tb_medicos, { foreignKey: 'med_crm', as: 'medico', targetKey: 'crm'} );
     }
 
 }

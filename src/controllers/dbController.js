@@ -9,10 +9,16 @@ function isEmpty(response) {
 }
 
 module.exports = {
-    async getMedEspecialidade(req,res){
-
+    async  getMedEspecialidade(req,res){ 
+        const especialidade = await Especialidade.findAll({ where:{ med_crm:req.params.crm  }}/* { 
+            include: { association: "medico", }
+        } */
+        );
+        res.json(especialidade)
+                
     },
 
+  
     async postEspecialidade(req, res) {
         const {especialidade , med_crm  } = req.body;        
         const medico = await Medico.findByPk(med_crm, {include: {association: "especialidades"}});        

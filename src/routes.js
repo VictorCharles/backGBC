@@ -12,8 +12,8 @@ routes.post('/medico', dbController.postDoctor) /* okay */
 
 routes.get('/espe', dbController.getEspecialidade) /* okay */
 
-/* routes.get('/medico/:crm/espe' dbController.getMedEspecialidade)
- */
+routes.get('/medico/:crm/espe', dbController.getMedEspecialidade) /* okay */
+
 routes.post('/medico/:crm/espe', dbController.postEspecialidade) /* okay */
 
 routes.get('/medico/:crm', dbController.searchDoctor) /* okay */

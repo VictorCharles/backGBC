@@ -64,6 +64,15 @@ module.exports = {
         res.json(medico)
                 
     },
+    async getDoctorsDeleted(req, res) {
+        const medico = await Medico.findAll({ 
+              include: { association: "especialidades"}
+          },
+              { where: { isDeleted: "1", } }
+          );
+          res.json(medico)
+                  
+      },
     
     async getEspecialidade(req, res) {
         const especialidade = await Especialidade.findAll(/* { 

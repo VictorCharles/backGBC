@@ -10,9 +10,7 @@ function isEmpty(response) {
 
 module.exports = {
     async  getMedEspecialidade(req,res){ 
-        const especialidade = await Especialidade.findAll({ where:{ med_crm:req.params.crm  }}/* { 
-            include: { association: "medico", }
-        } */
+        const especialidade = await Especialidade.findAll({ where:{ med_crm:req.params.crm  }}
         );
         res.json(especialidade)
                 
@@ -31,6 +29,7 @@ module.exports = {
         });
         return res.json(espe);
     },
+   
 
     async searchDoctor(req, res) {
         const {crm} = req.params;
@@ -70,7 +69,14 @@ module.exports = {
             res.json(especialidade)
             
         },
-        
+        delMedEspecialidade(req,res) {        
+            Especialidade.destroy({
+                where: {
+                    med_crm: req.body.crm
+                }
+            })
+        },
+    
         
         getDoctorsNoDeleted(req, res) {
             Medico.findAll(

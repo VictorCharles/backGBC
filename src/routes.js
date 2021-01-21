@@ -16,7 +16,7 @@ routes.get('/espe', dbController.getEspecialidade) /* okay */
 
 routes.get('/medico/:crm/espe', dbController.getMedEspecialidade) /* okay */
 
-routes.delete('/medico/espe', dbController.putMedEspecialidade) /* okay */
+routes.delete('/medico/espe', dbController.delMedEspecialidade) /* okay */
 
 routes.post('/medico/espe', dbController.postEspecialidade) /* okay */
 
